@@ -52,5 +52,18 @@ def load_backup():
         a = pickle.load(handle)
         variables["d_pgp_LOGIN"] = a
     return "Sucess! Variables loaded from backup."
+
+@app.route('/arduino_update', methods=['POST'])
+def arduino_update():
+    # Extract variable_name and value from the request data
+    variable_name = request.args.get('variable_name')
+    value = request.args.get('value')
+    
+    # Print the received data
+    print(f"Received data - Variable Name: {variable_name}, Value: {value}")
+    
+    # Add your processing logic here
+    
+    return 'Data received successfully'
 if __name__ == '__main__':
     app.run(debug=True)
