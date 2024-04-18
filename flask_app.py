@@ -7,20 +7,7 @@ variables = {}
 @app.route('/')
 def home():
     return render_template('index.html')
-    # return """Hello. I am alive! I am a Discord bot!</br>I am cool.</br>
-    # <iframe src="https://discord.com/widget?id=1081525939726462986&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>"""
-    # <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
-# def run():
-#     app.run(debug=True)
-#     #app.run()
-
-
-# def keep_alive():
-#     print("Hello World!")
-#     run()
-#     #t = Thread(target=run)
-#     #t.start
 @app.route('/list_variables', methods=['GET'])
 def list_variables():
     return variables
@@ -37,28 +24,6 @@ def update_variable():
     data = request.json
     variable_name = data['name']
     value = data['value']
-    if variable_name == "d_pgp_LOGIN":
-        import pickle
-        with open('Backup.pickle', 'wb') as handle:
-            pickle.dump(value, handle, protocol=pickle.HIGHEST_PROTOCOL)
-            handle.close()
     variables[variable_name] = value
     return 'Variable updated successfully'
-
-@app.route('/load_backup', methods=['GET'])
-def load_backup():
-    import pickle
-    with open('Backup.pickle', 'rb') as handle:
-        a = pickle.load(handle)
-        variables["d_pgp_LOGIN"] = a
-    return "Sucess! Variables loaded from backup."
-
-@app.route('/arduino_update', methods=['POST'])
-def arduino_update():
-    # Extract variable_name and value from the request data
-    variable_name = request.args.get('variable_name')
-    value = request.args.get('value')
-    variables[variable_name] = value
-    return 'Data received successfully'
-if __name__ == '__main__':
-    app.run(debug=True)
+app.run()
